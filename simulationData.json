@@ -1,0 +1,39 @@
+{
+  "routes": [
+    { "routeId": "R001", "name": "Colombo to Kandy", "start": "Colombo", "end": "Kandy", "stops": ["Mawanella", "Kadugannawa"] },
+    { "routeId": "R002", "name": "Colombo to Galle", "start": "Colombo", "end": "Galle", "stops": ["Kalutara", "Hikkaduwa"] },
+    { "routeId": "R003", "name": "Kandy to Jaffna", "start": "Kandy", "end": "Jaffna", "stops": ["Anuradhapura", "Vavuniya"] },
+    { "routeId": "R004", "name": "Colombo to Batticaloa", "start": "Colombo", "end": "Batticaloa", "stops": ["Polonnaruwa", "Valachchenai"] },
+    { "routeId": "R005", "name": "Colombo to Trincomalee", "start": "Colombo", "end": "Trincomalee", "stops": ["Dambulla", "Kantale"] }
+  ],
+  "buses": [
+    { "busId": "B001", "plateNo": "NC-1234", "operator": "Superline", "capacity": 50 },
+    { "busId": "B002", "plateNo": "NC-2345", "operator": "Superline", "capacity": 45 },
+    { "busId": "B003", "plateNo": "NC-3456", "operator": "BlueLine", "capacity": 50 },
+    { "busId": "B004", "plateNo": "NC-4567", "operator": "BlueLine", "capacity": 55 },
+    { "busId": "B005", "plateNo": "NC-5678", "operator": "Expo", "capacity": 50 },
+    { "busId": "B006", "plateNo": "NC-6789", "operator": "Expo", "capacity": 52 },
+    { "busId": "B007", "plateNo": "NC-7890", "operator": "InterCity", "capacity": 50 },
+    { "busId": "B008", "plateNo": "NC-8901", "operator": "InterCity", "capacity": 48 },
+    { "busId": "B009", "plateNo": "NC-9012", "operator": "CTB", "capacity": 60 },
+    { "busId": "B010", "plateNo": "NC-0123", "operator": "CTB", "capacity": 58 }
+  ],
+  "trips": [
+    {
+      "tripId": "T001",
+      "busId": "B001",
+      "routeId": "R001",
+      "startTime": "2025-09-20T08:00:00Z",
+      "endTime": "2025-09-20T12:00:00Z",
+      "status": "Scheduled"
+    },
+    {
+      "tripId": "T002",
+      "busId": "B002",
+      "routeId": "R002",
+      "startTime": "2025-09-20T09:00:00Z",
+      "endTime": "2025-09-20T13:00:00Z",
+      "status": "Scheduled"
+    }
+  ]
+}
