@@ -1,9 +1,12 @@
+// src/app.js
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+
 import busRoutes from "./routes/busRoutes.js";
 import routeRoutes from "./routes/routeRoutes.js";
 import tripRoutes from "./routes/tripRoutes.js";
+import { setupSwagger } from "./swagger.js"; // ✅ use central swagger config
 
 dotenv.config();
 
@@ -20,6 +23,10 @@ app.use("/api/buses", busRoutes);
 app.use("/api/routes", routeRoutes);
 app.use("/api/trips", tripRoutes);
 
+// Swagger docs
+setupSwagger(app); // ✅ swagger available at /api-docs
+
+// MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
