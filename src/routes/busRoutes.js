@@ -6,7 +6,7 @@ const router = express.Router();
 /**
  * @swagger
  * tags:
- *   name: Bus
+ *   name: Buses
  *   description: Bus management endpoints
  */
 
@@ -15,7 +15,7 @@ const router = express.Router();
  * /api/buses:
  *   get:
  *     summary: Get all buses
- *     tags: [Bus]
+ *     tags: [Buses]
  *     responses:
  *       200:
  *         description: List of all buses
@@ -40,17 +40,16 @@ router.get("/", async (req, res) => {
  * /api/buses/{id}:
  *   get:
  *     summary: Get a bus by ID
- *     tags: [Bus]
+ *     tags: [Buses]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: Bus ID
  *     responses:
  *       200:
- *         description: Bus data
+ *         description: Bus found
  *         content:
  *           application/json:
  *             schema:
@@ -73,7 +72,7 @@ router.get("/:id", async (req, res) => {
  * /api/buses:
  *   post:
  *     summary: Create a new bus
- *     tags: [Bus]
+ *     tags: [Buses]
  *     requestBody:
  *       required: true
  *       content:
@@ -83,10 +82,6 @@ router.get("/:id", async (req, res) => {
  *     responses:
  *       201:
  *         description: Bus created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Bus'
  */
 router.post("/", async (req, res) => {
   try {
@@ -103,14 +98,13 @@ router.post("/", async (req, res) => {
  * /api/buses/{id}:
  *   put:
  *     summary: Update a bus by ID
- *     tags: [Bus]
+ *     tags: [Buses]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: Bus ID
  *     requestBody:
  *       required: true
  *       content:
@@ -125,7 +119,9 @@ router.post("/", async (req, res) => {
  */
 router.put("/:id", async (req, res) => {
   try {
-    const updatedBus = await Bus.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedBus = await Bus.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!updatedBus) return res.status(404).json({ message: "Bus not found" });
     res.json(updatedBus);
   } catch (err) {
@@ -138,14 +134,13 @@ router.put("/:id", async (req, res) => {
  * /api/buses/{id}:
  *   delete:
  *     summary: Delete a bus by ID
- *     tags: [Bus]
+ *     tags: [Buses]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: Bus ID
  *     responses:
  *       200:
  *         description: Bus deleted successfully

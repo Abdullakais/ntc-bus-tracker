@@ -1,35 +1,54 @@
-// src/app.js
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
 import busRoutes from "./routes/busRoutes.js";
 import routeRoutes from "./routes/routeRoutes.js";
 import tripRoutes from "./routes/tripRoutes.js";
-import { setupSwagger } from "./swagger.js"; // ✅ use central swagger config
+import authRoutes from "./routes/auth.js";
 
 dotenv.config();
-
 const app = express();
+
 app.use(express.json());
 
-// Test API
-app.get("/", (req, res) => {
-  res.send("🚍 NTC Bus Tracker API is running...");
-});
+// Swagger setup
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "NTC Bus Tracker API",
+      version: "1.0.0",
+      description: "API for managing buses, routes, trips with authentication",
+    },
+    servers: [{ url: "http://localhost:5000" }],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [{ bearerAuth: [] }],
+  },
+  apis: ["./src/routes/*.js", "./src/models/*.js"],
+};
 
-// Mount routes
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/buses", busRoutes);
 app.use("/api/routes", routeRoutes);
 app.use("/api/trips", tripRoutes);
 
-// Swagger docs
-setupSwagger(app); // ✅ swagger available at /api-docs
-
-// MongoDB connection
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => console.error(err));
+// DB connect
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error(err));
 
 export default app;

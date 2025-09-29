@@ -1,7 +1,21 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import Route from "../models/Route.js";
 
 const router = express.Router();
+
+// ✅ JWT Middleware
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Access token missing" });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Invalid token" });
+    req.user = user;
+    next();
+  });
+};
 
 /**
  * @swagger
@@ -73,6 +87,8 @@ router.get("/:id", async (req, res) => {
  *   post:
  *     summary: Create a new route
  *     tags: [Routes]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -82,8 +98,10 @@ router.get("/:id", async (req, res) => {
  *     responses:
  *       201:
  *         description: Route created successfully
+ *       401:
+ *         description: Unauthorized
  */
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   try {
     const route = new Route(req.body);
     const savedRoute = await route.save();
@@ -99,6 +117,8 @@ router.post("/", async (req, res) => {
  *   put:
  *     summary: Update a route by ID
  *     tags: [Routes]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -114,12 +134,16 @@ router.post("/", async (req, res) => {
  *     responses:
  *       200:
  *         description: Route updated successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Route not found
  */
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticateToken, async (req, res) => {
   try {
-    const updatedRoute = await Route.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedRoute = await Route.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!updatedRoute) return res.status(404).json({ message: "Route not found" });
     res.json(updatedRoute);
   } catch (err) {
@@ -133,6 +157,8 @@ router.put("/:id", async (req, res) => {
  *   delete:
  *     summary: Delete a route by ID
  *     tags: [Routes]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -142,10 +168,12 @@ router.put("/:id", async (req, res) => {
  *     responses:
  *       200:
  *         description: Route deleted successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Route not found
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticateToken, async (req, res) => {
   try {
     const deletedRoute = await Route.findByIdAndDelete(req.params.id);
     if (!deletedRoute) return res.status(404).json({ message: "Route not found" });

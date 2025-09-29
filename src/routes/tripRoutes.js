@@ -1,5 +1,6 @@
 import express from "express";
 import Trip from "../models/Trip.js";
+import auth from "../middleware/auth.js";  // ✅ use ES Module import
 
 const router = express.Router();
 
@@ -77,6 +78,8 @@ router.get("/:id", async (req, res) => {
  *   post:
  *     summary: Create a new trip
  *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []   # 🔒 requires JWT token
  *     requestBody:
  *       required: true
  *       content:
@@ -87,7 +90,7 @@ router.get("/:id", async (req, res) => {
  *       201:
  *         description: Trip created successfully
  */
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const trip = new Trip(req.body);
     const savedTrip = await trip.save();
@@ -103,6 +106,8 @@ router.post("/", async (req, res) => {
  *   put:
  *     summary: Update a trip by ID
  *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []   # 🔒 requires JWT token
  *     parameters:
  *       - in: path
  *         name: id
@@ -121,7 +126,7 @@ router.post("/", async (req, res) => {
  *       404:
  *         description: Trip not found
  */
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     const updatedTrip = await Trip.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedTrip) return res.status(404).json({ message: "Trip not found" });
@@ -137,6 +142,8 @@ router.put("/:id", async (req, res) => {
  *   delete:
  *     summary: Delete a trip by ID
  *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []   # 🔒 requires JWT token
  *     parameters:
  *       - in: path
  *         name: id
@@ -149,7 +156,7 @@ router.put("/:id", async (req, res) => {
  *       404:
  *         description: Trip not found
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const deletedTrip = await Trip.findByIdAndDelete(req.params.id);
     if (!deletedTrip) return res.status(404).json({ message: "Trip not found" });
