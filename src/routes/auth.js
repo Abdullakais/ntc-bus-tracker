@@ -27,6 +27,8 @@ const router = express.Router();
  *             properties:
  *               username:
  *                 type: string
+ *               email:
+ *                 type: string
  *               password:
  *                 type: string
  *     responses:
@@ -37,7 +39,7 @@ const router = express.Router();
  */
 router.post("/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
 
     let user = await User.findOne({ username });
     if (user) {
@@ -47,7 +49,7 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    user = new User({ username, password: hashedPassword });
+    user = new User({ username, email, password: hashedPassword });
     await user.save();
 
     res.status(201).json({ message: "User registered successfully" });

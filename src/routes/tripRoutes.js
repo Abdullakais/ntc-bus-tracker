@@ -1,6 +1,6 @@
 import express from "express";
 import Trip from "../models/Trip.js";
-import auth from "../middleware/auth.js";  // ✅ use ES Module import
+import auth from "../middleware/auth.js"; // JWT auth middleware
 
 const router = express.Router();
 
@@ -79,7 +79,7 @@ router.get("/:id", async (req, res) => {
  *     summary: Create a new trip
  *     tags: [Trips]
  *     security:
- *       - bearerAuth: []   # 🔒 requires JWT token
+ *       - bearerAuth: []   # Requires JWT token
  *     requestBody:
  *       required: true
  *       content:
@@ -107,7 +107,7 @@ router.post("/", auth, async (req, res) => {
  *     summary: Update a trip by ID
  *     tags: [Trips]
  *     security:
- *       - bearerAuth: []   # 🔒 requires JWT token
+ *       - bearerAuth: []   # Requires JWT token
  *     parameters:
  *       - in: path
  *         name: id
@@ -143,7 +143,7 @@ router.put("/:id", auth, async (req, res) => {
  *     summary: Delete a trip by ID
  *     tags: [Trips]
  *     security:
- *       - bearerAuth: []   # 🔒 requires JWT token
+ *       - bearerAuth: []   # Requires JWT token
  *     parameters:
  *       - in: path
  *         name: id
