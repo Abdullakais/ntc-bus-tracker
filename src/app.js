@@ -10,6 +10,7 @@ import cors from 'cors'; // 🔑 ADDED: Import CORS middleware
 import busRoutes from "./routes/busRoutes.js";
 import routeRoutes from "./routes/routeRoutes.js";
 import tripRoutes from "./routes/tripRoutes.js";
+import locationRoutes from "./routes/locationRoutes.js";
 // Using the existing auth.js file in routes
 import authRoutes from "./routes/auth.js"; 
 
@@ -74,6 +75,7 @@ app.use("/api/auth", authRoutes); // User registration/login (JWT generation)
 app.use("/api/buses", busRoutes);
 app.use("/api/routes", routeRoutes);
 app.use("/api/trips", tripRoutes);
+app.use("/api/locations", locationRoutes);
 
 // DB connect
 mongoose.connect(process.env.MONGO_URI)
