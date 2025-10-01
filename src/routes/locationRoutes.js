@@ -1,5 +1,10 @@
 import express from "express";
-import { createLocation, getLocations, getLatestLocation } from "../controllers/locationController.js";
+import {
+  createLocation,
+  getLocations,
+  getLocationById,
+  deleteLocation,
+} from "../controllers/locationController.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
@@ -35,6 +40,8 @@ router.get("/", getLocations);
  *   post:
  *     summary: Add a new bus location
  *     tags: [Locations]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -49,26 +56,48 @@ router.post("/", auth, createLocation);
 
 /**
  * @swagger
- * /api/locations/{busId}/latest:
+ * /api/locations/{id}:
  *   get:
- *     summary: Get the latest location of a specific bus
+ *     summary: Get a location by ID
  *     tags: [Locations]
  *     parameters:
  *       - in: path
- *         name: busId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Latest location of the bus
+ *         description: Location found
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Location'
  *       404:
- *         description: No location found for the bus
+ *         description: Location not found
  */
-router.get("/:busId/latest", getLatestLocation);
+router.get("/:id", getLocationById);
+
+/**
+ * @swagger
+ * /api/locations/{id}:
+ *   delete:
+ *     summary: Delete a location by ID
+ *     tags: [Locations]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Location deleted successfully
+ *       404:
+ *         description: Location not found
+ */
+router.delete("/:id", auth, deleteLocation);
 
 export default router;

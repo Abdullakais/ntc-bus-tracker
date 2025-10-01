@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Location from "../models/Location.js";
 
 /**
@@ -26,14 +27,26 @@ export const getLocations = async (req, res) => {
 };
 
 /**
- * Get the latest location of a bus
+ * Get a location by ID
  */
-export const getLatestLocation = async (req, res) => {
+export const getLocationById = async (req, res) => {
   try {
-    const location = await Location.findOne({ busId: req.params.busId })
-      .sort({ timestamp: -1 });
-    if (!location) return res.status(404).json({ message: "No location found" });
+    const location = await Location.findById(req.params.id);
+    if (!location) return res.status(404).json({ message: "Location not found" });
     res.json(location);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+/**
+ * Delete a location by ID
+ */
+export const deleteLocation = async (req, res) => {
+  try {
+    const deletedLocation = await Location.findByIdAndDelete(req.params.id);
+    if (!deletedLocation) return res.status(404).json({ message: "Location not found" });
+    res.json({ message: "Location deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
