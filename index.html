@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NTC Real-Time Bus Tracking System</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #003366, #002244);
+      color: #ffffff;
+      margin: 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 0.3em;
+      color: #ffd700;
+      letter-spacing: 1px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1em;
+      color: #ffffff;
+      font-weight: normal;
+    }
+
+    p {
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 2em;
+      color: #e0e0e0;
+      font-size: 1rem;
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: #ffd700;
+      color: #003366;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #ffea00;
+      transform: scale(1.05);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9rem;
+      color: #cccccc;
+      letter-spacing: 0.3px;
+    }
+
+    /* Decorative accent bar */
+    .accent-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(to right, #ffd700, #ffffff, #003366);
+    }
+  </style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+  <h1>National Transport Commission (NTC)</h1>
+  <h2>Real-Time Bus Tracking API</h2>
+  <p>
+    Welcome to the official <strong>NTC Real-Time Bus Tracking System</strong> for Sri Lanka’s
+    Inter-Provincial Services. Access live GPS-based bus location data, routes, and trip
+    information with our RESTful API.
+  </p>
+  <a href="/api-docs">View API Documentation (Swagger)</a>
+  <footer>© 2025 National Transport Commission of Sri Lanka</footer>
+</body>
+</html>
